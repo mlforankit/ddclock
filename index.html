@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌍 Doomsday Clock — The Prophecy</title>
+<link href="https://fonts.googleapis.com/css2?family=Creepster&family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --glass-bg: rgba(255,255,255,0.08);
+    --glass-border: rgba(255,255,255,0.18);
+    --glass-shadow: rgba(0,0,0,0.4);
+    --accent: #ff4444;
+    --accent2: #ff8800;
+    --text: #fff;
+    --blur: 18px;
+    --bg1: #0a0a0f;
+    --bg2: #1a0505;
+    --particle-color: rgba(255,60,60,0.7);
+    --glow: rgba(255,50,50,0.5);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    min-height: 100vh;
+    font-family: 'Space Mono', monospace;
+    color: var(--text);
+    overflow-x: hidden;
+    transition: all 0.8s ease;
+    position: relative;
+  }
+
+  /* ===================== BACKGROUNDS ===================== */
+  .bg-layer {
+    position: fixed; inset: 0;
+    z-index: 0;
+    transition: opacity 1s ease;
+  }
+
+  /* DARK MODE (default) */
+  body.mode-dark {
+    --accent: #ff4444; --accent2: #ff8800;
+    --glow: rgba(255,50,50,0.5);
+    --glass-bg: rgba(255,255,255,0.06);
+    --glass-border: rgba(255,255,255,0.14);
+  }
+  body.mode-dark .bg-layer {
+    background: radial-gradient(ellipse at 30% 40%, #1a0505 0%, #0a0a0f 60%, #000 100%);
+  }
+
+  /* FIRE MODE */
+  body.mode-fire {
+    --accent: #ff6600; --accent2: #ffcc00;
+    --glow: rgba(255,100,0,0.7);
+    --glass-bg: rgba(255,80,0,0.1);
+    --glass-border: rgba(255,150,0,0.3);
+  }
+  body.mode-fire .bg-layer {
+    background: radial-gradient(ellipse at 50% 100%, #ff4500 0%, #ff2200 30%, #7a0000 60%, #1a0000 100%);
+    animation: firePulse 2s ease-in-out infinite alternate;
+  }
+  @keyframes firePulse {
+    from { filter: brightness(0.85); }
+    to { filter: brightness(1.15) saturate(1.2); }
+  }
+
+  /* WATER MODE */
+  body.mode-water {
+    --accent: #00ccff; --accent2: #0055ff;
+    --glow: rgba(0,200,255,0.6);
+    --glass-bg: rgba(0,150,255,0.1);
+    --glass-border: rgba(0,220,255,0.3);
+    --text: #e0f8ff;
+  }
+  body.mode-water .bg-layer {
+    background: radial-gradient(ellipse at 50% 0%, #001a3a 0%, #003366 40%, #005599 70%, #001122 100%);
+    animation: waterFlow 4s ease-in-out infinite alternate;
+  }
+  @keyframes waterFlow {
+    from { filter: hue-rotate(0deg) brightness(0.9); }
+    to { filter: hue-rotate(20deg) brightness(1.1); }
+  }
+
+  /* METEOR MODE */
+  body.mode-meteor {
+    --accent: #ff9900; --accent2: #ffcc44;
+    --glow: rgba(255,150,0,0.6);
+    --glass-bg: rgba(255,100,0,0.08);
+    --glass-border: rgba(255,180,50,0.25);
+  }
+  body.mode-meteor .bg-layer {
+    background: radial-gradient(ellipse at 70% 20%, #331100 0%, #1a0a00 50%, #050505 100%);
+  }
+
+  /* VOLCANO MODE */
+  body.mode-volcano {
+    --accent: #ff3300; --accent2: #ff9900;
+    --glow: rgba(255,80,0,0.8);
+    --glass-bg: rgba(200,50,0,0.12);
+    --glass-border: rgba(255,100,0,0.3);
+  }
+  body.mode-volcano .bg-layer {
+    background: radial-gradient(ellipse at 50% 100%, #ff2200 0%, #8b0000 30%, #2d0000 70%, #0a0000 100%);
+    animation: volcanoPulse 1.5s ease-in-out infinite alternate;
+  }
+  @keyframes volcanoPulse {
+    from { filter: brightness(0.8) saturate(1.2); }
+    to { filter: brightness(1.2) saturate(1.5); }
+  }
+
+  /* LIGHT MODE */
+  body.mode-light {
+    --accent: #cc0000; --accent2: #ff6600;
+    --glow: rgba(200,0,0,0.3);
+    --glass-bg: rgba(255,255,255,0.45);
+    --glass-border: rgba(255,255,255,0.7);
+    --glass-shadow: rgba(0,0,0,0.15);
+    --text: #1a0000;
+  }
+  body.mode-light .bg-layer {
+    background: radial-gradient(ellipse at 30% 20%, #fff8f0 0%, #ffe0d0 50%, #ffb0a0 100%);
+  }
+
+  /* SPACE MODE */
+  body.mode-space {
+    --accent: #aa44ff; --accent2: #44aaff;
+    --glow: rgba(170,68,255,0.6);
+    --glass-bg: rgba(100,50,200,0.1);
+    --glass-border: rgba(180,100,255,0.25);
+  }
+  body.mode-space .bg-layer {
+    background: radial-gradient(ellipse at 50% 50%, #0a0020 0%, #050010 60%, #000 100%);
+  }
+
+  /* ZOMBIE MODE */
+  body.mode-zombie {
+    --accent: #44ff44; --accent2: #88ff00;
+    --glow: rgba(50,255,50,0.6);
+    --glass-bg: rgba(0,100,0,0.12);
+    --glass-border: rgba(100,255,50,0.3);
+  }
+  body.mode-zombie .bg-layer {
+    background: radial-gradient(ellipse at 40% 60%, #003300 0%, #001500 50%, #000800 100%);
+    animation: zombieFlicker 3s steps(2) infinite;
+  }
+  @keyframes zombieFlicker {
+    0%,90%,100% { filter: none; }
+    92%,98% { filter: brightness(0.6) hue-rotate(10deg); }
+    95% { filter: brightness(1.3) hue-rotate(-10deg); }
+  }
+
+  /* ===================== PARTICLES ===================== */
+  #particles {
+    position: fixed; inset: 0; z-index: 1;
+    pointer-events: none; overflow: hidden;
+  }
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: floatUp linear infinite;
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 0.8; }
+    100% { transform: translateY(-110vh) scale(0.2) rotate(720deg); opacity: 0; }
+  }
+
+  /* Meteors */
+  .meteor-streak {
+    position: absolute;
+    width: 3px; height: 120px;
+    background: linear-gradient(180deg, #ffcc00, transparent);
+    border-radius: 2px;
+    animation: meteorFall linear infinite;
+    transform-origin: top center;
+    transform: rotate(45deg);
+  }
+  @keyframes meteorFall {
+    0% { opacity: 1; top: -150px; }
+    100% { opacity: 0; top: 110vh; }
+  }
+
+  /* ===================== LAYOUT ===================== */
+  .container {
+    position: relative; z-index: 10;
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 20px;
+    gap: 20px;
+  }
+
+  /* ===================== GLASSMORPHISM ===================== */
+  .glass {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(var(--blur)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--blur)) saturate(180%);
+    border-radius: 20px;
+    box-shadow: 0 8px 40px var(--glass-shadow), inset 0 0 0 1px var(--glass-border);
+  }
+
+  /* ===================== HEADER ===================== */
+  .header-card {
+    text-align: center;
+    padding: 30px 40px 20px;
+    width: min(700px, 95vw);
+  }
+
+  .doom-title {
+    font-family: 'Creepster', cursive;
+    font-size: clamp(2.5rem, 8vw, 5.5rem);
+    color: var(--accent);
+    text-shadow: 0 0 30px var(--glow), 0 0 60px var(--glow), 0 2px 0 rgba(0,0,0,0.5);
+    letter-spacing: 4px;
+    line-height: 1;
+    animation: titlePulse 2s ease-in-out infinite alternate;
+  }
+  @keyframes titlePulse {
+    from { text-shadow: 0 0 20px var(--glow), 0 0 40px var(--glow); }
+    to { text-shadow: 0 0 40px var(--glow), 0 0 80px var(--glow), 0 0 120px var(--glow); }
+  }
+
+  .prophecy-text {
+    font-family: 'Space Mono', monospace;
+    font-style: italic;
+    font-size: clamp(0.65rem, 1.8vw, 0.85rem);
+    color: var(--accent2);
+    margin-top: 8px;
+    opacity: 0.9;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .prediction-badge {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 6px 18px;
+    border: 1px solid var(--accent);
+    border-radius: 50px;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    color: var(--accent2);
+    background: rgba(255,68,0,0.1);
+    animation: badgePulse 3s ease-in-out infinite;
+  }
+  @keyframes badgePulse {
+    0%,100% { box-shadow: 0 0 0px var(--glow); }
+    50% { box-shadow: 0 0 20px var(--glow); }
+  }
+
+  /* ===================== COUNTDOWN ===================== */
+  .countdown-card {
+    padding: 30px 35px;
+    width: min(900px, 95vw);
+    text-align: center;
+  }
+
+  .countdown-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 4px;
+    color: var(--accent2);
+    margin-bottom: 18px;
+    text-transform: uppercase;
+    opacity: 0.8;
+  }
+
+  .time-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  @media (max-width: 600px) {
+    .time-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  .time-unit {
+    display: flex; flex-direction: column;
+    align-items: center;
+  }
+
+  .time-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 3.2rem);
+    color: var(--accent);
+    text-shadow: 0 0 20px var(--glow);
+    line-height: 1;
+    letter-spacing: 2px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    padding: 8px 6px 4px;
+    width: 100%;
+    min-width: 0;
+    transition: all 0.3s;
+    backdrop-filter: blur(10px);
+  }
+
+  .time-name {
+    font-size: 0.5rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 5px;
+    opacity: 0.6;
+    color: var(--accent2);
+  }
+
+  .ms-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1rem, 2.5vw, 1.6rem);
+    color: var(--accent2);
+    text-shadow: 0 0 10px var(--glow);
+    letter-spacing: 3px;
+    margin-top: 8px;
+    opacity: 0.85;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ===================== PERCENT BAR ===================== */
+  .doom-progress {
+    margin-top: 18px;
+    position: relative;
+  }
+  .doom-bar-bg {
+    height: 8px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 50px;
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+  }
+  .doom-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    border-radius: 50px;
+    box-shadow: 0 0 10px var(--glow);
+    transition: width 1s linear;
+  }
+  .doom-percent {
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    color: var(--accent2);
+    margin-top: 6px;
+    text-align: right;
+    opacity: 0.7;
+  }
+
+  /* ===================== FUN MESSAGE ===================== */
+  .fun-card {
+    padding: 18px 28px;
+    width: min(700px, 95vw);
+    text-align: center;
+  }
+  .fun-message {
+    font-size: clamp(0.75rem, 2vw, 0.95rem);
+    line-height: 1.7;
+    opacity: 0.9;
+    color: var(--text);
+  }
+  .fun-message span {
+    color: var(--accent);
+    font-weight: bold;
+  }
+
+  /* ===================== MODE SWITCHER ===================== */
+  .mode-card {
+    padding: 18px 22px;
+    width: min(700px, 95vw);
+  }
+  .mode-label {
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 12px;
+    text-align: center;
+    opacity: 0.7;
+  }
+  .mode-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+  .mode-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    padding: 7px 14px;
+    border-radius: 50px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    color: var(--text);
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+    backdrop-filter: blur(10px);
+  }
+  .mode-btn:hover, .mode-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    box-shadow: 0 0 20px var(--glow);
+    transform: translateY(-2px);
+  }
+
+  /* ===================== PROPHECY SCROLL ===================== */
+  .scroll-card {
+    padding: 20px 28px;
+    width: min(700px, 95vw);
+  }
+  .scroll-title {
+    font-family: 'Creepster', cursive;
+    font-size: 1.2rem;
+    color: var(--accent);
+    margin-bottom: 12px;
+    letter-spacing: 3px;
+    text-shadow: 0 0 10px var(--glow);
+  }
+  .scroll-list {
+    list-style: none;
+    font-size: 0.72rem;
+    line-height: 2;
+    opacity: 0.8;
+    color: var(--text);
+  }
+  .scroll-list li::before {
+    content: '☠ ';
+    color: var(--accent);
+  }
+
+  /* ===================== FOOTER ===================== */
+  .footer-note {
+    font-size: 0.6rem;
+    opacity: 0.35;
+    letter-spacing: 2px;
+    text-align: center;
+    padding-bottom: 20px;
+    color: var(--text);
+  }
+
+  /* ===================== SPECIAL EFFECTS ===================== */
+  .shake {
+    animation: shake 0.4s ease-in-out;
+  }
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-8px) rotate(-1deg); }
+    75% { transform: translateX(8px) rotate(1deg); }
+  }
+
+  .time-value.tick {
+    animation: numTick 0.12s ease;
+  }
+  @keyframes numTick {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); color: var(--accent2); }
+    100% { transform: scale(1); }
+  }
+
+  /* Volcano lava drip */
+  body.mode-volcano::after {
+    content: '';
+    position: fixed; top: 0; left: 0; right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, #ff2200, #ff6600, #ffcc00, #ff2200);
+    background-size: 200%;
+    animation: lavaFlow 3s linear infinite;
+    z-index: 100;
+    box-shadow: 0 0 20px #ff4400;
+  }
+  @keyframes lavaFlow {
+    from { background-position: 0% 0%; }
+    to { background-position: 200% 0%; }
+  }
+
+  /* Water ripple overlay */
+  body.mode-water::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 2;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 60px,
+      rgba(0,200,255,0.03) 60px,
+      rgba(0,200,255,0.03) 61px
+    );
+    animation: waterLines 4s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes waterLines {
+    from { transform: translateY(0); }
+    to { transform: translateY(61px); }
+  }
+
+  /* Space stars */
+  body.mode-space::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 1;
+    background-image:
+      radial-gradient(circle, #fff 1px, transparent 1px),
+      radial-gradient(circle, #fff 1px, transparent 1px),
+      radial-gradient(circle, rgba(255,255,255,0.5) 1px, transparent 1px);
+    background-size: 100px 100px, 200px 200px, 300px 300px;
+    background-position: 0 0, 50px 50px, 100px 100px;
+    animation: starTwinkle 8s ease-in-out infinite alternate;
+    pointer-events: none;
+    opacity: 0.4;
+  }
+  @keyframes starTwinkle {
+    from { opacity: 0.3; }
+    to { opacity: 0.6; }
+  }
+
+  /* Zombie green scan lines */
+  body.mode-zombie::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 2;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0,255,0,0.04) 3px,
+      rgba(0,255,0,0.04) 4px
+    );
+    pointer-events: none;
+  }
+</style>
+</head>
+<body class="mode-dark">
+
+<div class="bg-layer"></div>
+<div id="particles"></div>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="glass header-card">
+    <div class="doom-title">☠ DOOMSDAY CLOCK ☠</div>
+    <div class="prophecy-text">The Prophecy Was Spoken • March 13, 2020 • By Someone Who Definitely Knows</div>
+    <div class="prediction-badge">📜 PREDICTED END DATE: MARCH 13, 2036 · 00:00:00.000 UTC</div>
+  </div>
+
+  <!-- COUNTDOWN -->
+  <div class="glass countdown-card">
+    <div class="countdown-label">⏳ Time Until Humanity's Hilarious Demise ⏳</div>
+    <div class="time-grid">
+      <div class="time-unit">
+        <div class="time-value" id="years">00</div>
+        <div class="time-name">Years</div>
+      </div>
+      <div class="time-unit">
+        <div class="time-value" id="months">00</div>
+        <div class="time-name">Months</div>
+      </div>
+      <div class="time-unit">
+        <div class="time-value" id="days">000</div>
+        <div class="time-name">Days</div>
+      </div>
+      <div class="time-unit">
+        <div class="time-value" id="hours">00</div>
+        <div class="time-name">Hours</div>
+      </div>
+      <div class="time-unit">
+        <div class="time-value" id="minutes">00</div>
+        <div class="time-name">Mins</div>
+      </div>
+      <div class="time-unit">
+        <div class="time-value" id="seconds">00</div>
+        <div class="time-name">Secs</div>
+      </div>
+      <div class="time-unit">
+        <div class="time-value" id="ms">000</div>
+        <div class="time-name">Ms</div>
+      </div>
+    </div>
+    <div class="ms-value" id="totalms">Loading...</div>
+    <div class="doom-progress">
+      <div class="doom-bar-bg">
+        <div class="doom-bar-fill" id="doomFill" style="width:0%"></div>
+      </div>
+      <div class="doom-percent" id="doomPercent">Doom: 0.00% complete</div>
+    </div>
+  </div>
+
+  <!-- FUN MESSAGE -->
+  <div class="glass fun-card" id="funCard">
+    <div class="fun-message" id="funMsg">
+      🔮 Loading prophecy...
+    </div>
+  </div>
+
+  <!-- MODE SWITCHER -->
+  <div class="glass mode-card">
+    <div class="mode-label">🎨 Choose Your Apocalypse Aesthetic</div>
+    <div class="mode-grid">
+      <button class="mode-btn active" onclick="setMode('dark')">🌑 Dark</button>
+      <button class="mode-btn" onclick="setMode('fire')">🔥 Fire</button>
+      <button class="mode-btn" onclick="setMode('water')">🌊 Water</button>
+      <button class="mode-btn" onclick="setMode('meteor')">☄️ Meteor</button>
+      <button class="mode-btn" onclick="setMode('volcano')">🌋 Volcano</button>
+      <button class="mode-btn" onclick="setMode('light')">☀️ Light</button>
+      <button class="mode-btn" onclick="setMode('space')">🌌 Space</button>
+      <button class="mode-btn" onclick="setMode('zombie')">🧟 Zombie</button>
+    </div>
+  </div>
+
+  <!-- PROPHECY SCROLL -->
+  <div class="glass scroll-card">
+    <div class="scroll-title">📜 The Sacred Prophecy Checklist</div>
+    <ul class="scroll-list">
+      <li>A wise man (probably hungover) gazed at a spreadsheet on March 13, 2020</li>
+      <li>He declared: "16 years. That's all ye have, mortals."</li>
+      <li>The exact cause remains unclear — could be aliens, AI, WiFi passwords forgotten forever</li>
+      <li>Scientists say: "That's not how this works." The prophecy says: "k thx bye"</li>
+      <li>Your to-do list due March 14, 2036? Probably fine to skip.</li>
+      <li>The world will end at exactly midnight UTC — very punctual for an apocalypse</li>
+      <li>Survivors: none. Except cockroaches, Keith Richards, and your unread emails</li>
+      <li>The prophecy is 100% accurate give or take 100% margin of error</li>
+    </ul>
+  </div>
+
+  <div class="footer-note">FOR ENTERTAINMENT PURPOSES ONLY · NOT RESPONSIBLE FOR EXISTENTIAL DREAD · CONSULT A THERAPIST NOT A COUNTDOWN TIMER</div>
+</div>
+
+<script>
+// ===================== COUNTDOWN ENGINE =====================
+const END_DATE = new Date('2036-03-13T00:00:00.000Z');
+const START_DATE = new Date('2020-03-13T00:00:00.000Z');
+const TOTAL_MS = END_DATE - START_DATE;
+
+const funMessages = [
+  `🎉 Only <span id="yearsLeft"></span> years left to finish your Netflix watchlist. Better hurry.`,
+  `🧴 Have you applied sunscreen? Doesn't matter. THE SUN ITSELF IS COMING FOR YOU.`,
+  `📚 This is a great time to finally read those 200 unread emails. Just kidding. Nothing matters.`,
+  `🛒 Your 5-year meal plan? Scale it down. <span id="yearsLeft2"></span> years max.`,
+  `🧘 Experts recommend mindfulness. The prophecy recommends panic-buying canned beans.`,
+  `💼 Your 401(k) matures in 2040? Awkward. Really awkward.`,
+  `🌍 Fun fact: The Earth has been through worse. It hasn't. We made that up.`,
+  `🤖 At least the robots won't outlive us. Oh wait. They will. The robots will be fine.`,
+  `📱 Your phone contract expires in 2036. Bold of the company to assume.`,
+  `🎓 Starting a PhD program? Pick something you can finish. Fast.`,
+];
+
+let msgIndex = 0;
+function updateFunMessage() {
+  const yearsLeft = Math.max(0, Math.floor((END_DATE - new Date()) / (1000*60*60*24*365.25)));
+  let msg = funMessages[msgIndex % funMessages.length];
+  msg = msg.replace(/<span id="yearsLeft"><\/span>/g, `<span>${yearsLeft}</span>`);
+  msg = msg.replace(/<span id="yearsLeft2"><\/span>/g, `<span>${yearsLeft}</span>`);
+  document.getElementById('funMsg').innerHTML = msg;
+  msgIndex++;
+}
+
+// ===================== TICK =====================
+let prevSeconds = -1;
+let prevMs = -1;
+
+function pad(n, len=2) {
+  return String(Math.floor(n)).padStart(len, '0');
+}
+
+function updateClock() {
+  const now = new Date();
+  const diff = END_DATE - now;
+
+  if (diff <= 0) {
+    document.getElementById('funMsg').innerHTML = `<span>💀 IT'S OVER. THE PROPHECY WAS RIGHT. HOPE YOU ENJOYED YOUR TIME HERE. 💀</span>`;
+    return;
+  }
+
+  const totalMs = diff;
+  const ms = totalMs % 1000;
+  const totalSec = Math.floor(totalMs / 1000);
+  const seconds = totalSec % 60;
+  const totalMin = Math.floor(totalSec / 60);
+  const minutes = totalMin % 60;
+  const totalHours = Math.floor(totalMin / 60);
+  const hours = totalHours % 24;
+  const totalDays = Math.floor(totalHours / 24);
+
+  // Calculate years and months approximately
+  const endY = 2036, endM = 3, endD = 13;
+  const nowY = now.getUTCFullYear(), nowM = now.getUTCMonth()+1, nowD = now.getUTCDate();
+  let years = endY - nowY;
+  let months = endM - nowM;
+  if (months < 0) { years--; months += 12; }
+  if (endD < nowD) { months--; if (months < 0) { years--; months += 12; } }
+  // Days remaining in current month cycle
+  const nextTick = new Date(now);
+  nextTick.setUTCFullYear(now.getUTCFullYear() + years);
+  nextTick.setUTCMonth(now.getUTCMonth() + months);
+  const daysFraction = Math.floor((END_DATE - nextTick) / (1000*60*60*24));
+
+  // Update DOM
+  const secEl = document.getElementById('seconds');
+  if (seconds !== prevSeconds) {
+    secEl.classList.remove('tick');
+    void secEl.offsetWidth;
+    secEl.classList.add('tick');
+    prevSeconds = seconds;
+  }
+
+  document.getElementById('years').textContent = pad(years);
+  document.getElementById('months').textContent = pad(months);
+  document.getElementById('days').textContent = pad(daysFraction >= 0 ? daysFraction : totalDays % 365, 3);
+  document.getElementById('hours').textContent = pad(hours);
+  document.getElementById('minutes').textContent = pad(minutes);
+  document.getElementById('seconds').textContent = pad(seconds);
+  document.getElementById('ms').textContent = pad(ms, 3);
+
+  // Total ms display
+  document.getElementById('totalms').textContent = totalMs.toLocaleString() + ' ms remaining';
+
+  // Progress bar (% of 16 years elapsed)
+  const elapsed = TOTAL_MS - totalMs;
+  const pct = Math.min(100, (elapsed / TOTAL_MS) * 100);
+  document.getElementById('doomFill').style.width = pct.toFixed(4) + '%';
+  document.getElementById('doomPercent').textContent = `Doom Progress: ${pct.toFixed(4)}% complete`;
+}
+
+// ===================== MODES =====================
+const modeParticles = {
+  dark: () => createParticles(20, () => ({ size: 3, color: 'rgba(255,50,50,0.5)', speed: 8, shape: 'circle' })),
+  fire: () => createParticles(40, () => ({
+    size: Math.random()*6+2,
+    color: `hsl(${Math.random()*40+10},100%,${Math.random()*30+50}%)`,
+    speed: Math.random()*4+2, shape: 'circle'
+  })),
+  water: () => createParticles(30, () => ({
+    size: Math.random()*5+2,
+    color: `rgba(${Math.floor(Math.random()*50)},${Math.floor(Math.random()*100+150)},255,0.4)`,
+    speed: Math.random()*10+5, shape: 'circle'
+  })),
+  meteor: () => createMeteors(15),
+  volcano: () => createParticles(50, () => ({
+    size: Math.random()*8+3,
+    color: `hsl(${Math.random()*30},100%,${Math.random()*20+40}%)`,
+    speed: Math.random()*3+2, shape: 'circle', startBottom: true
+  })),
+  light: () => createParticles(15, () => ({ size: 4, color: 'rgba(255,100,0,0.3)', speed: 12, shape: 'circle' })),
+  space: () => createParticles(30, () => ({
+    size: Math.random()*3+1,
+    color: `hsl(${Math.random()*60+260},80%,70%)`,
+    speed: Math.random()*15+8, shape: 'circle'
+  })),
+  zombie: () => createParticles(25, () => ({
+    size: Math.random()*5+2,
+    color: `rgba(${Math.floor(Math.random()*30+30)},${Math.floor(Math.random()*100+155)},${Math.floor(Math.random()*30)},0.5)`,
+    speed: Math.random()*6+3, shape: 'circle'
+  })),
+};
+
+function clearParticles() {
+  document.getElementById('particles').innerHTML = '';
+}
+
+function createParticles(count, factory) {
+  clearParticles();
+  const container = document.getElementById('particles');
+  for (let i = 0; i < count; i++) {
+    setTimeout(() => {
+      const cfg = factory();
+      const el = document.createElement('div');
+      el.className = 'particle';
+      const size = cfg.size;
+      el.style.cssText = `
+        width:${size}px; height:${size}px;
+        background:${cfg.color};
+        left:${Math.random()*100}%;
+        bottom:${cfg.startBottom ? Math.random()*30 : -20}px;
+        animation-duration:${cfg.speed}s;
+        animation-delay:${Math.random()*cfg.speed}s;
+        box-shadow: 0 0 ${size*2}px ${cfg.color};
+      `;
+      container.appendChild(el);
+    }, i * 50);
+  }
+}
+
+function createMeteors(count) {
+  clearParticles();
+  const container = document.getElementById('particles');
+  for (let i = 0; i < count; i++) {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.className = 'meteor-streak';
+      el.style.cssText = `
+        left:${Math.random()*120-20}%;
+        animation-duration:${Math.random()*2+1}s;
+        animation-delay:${Math.random()*3}s;
+        height:${Math.random()*80+60}px;
+        opacity:${Math.random()*0.5+0.5};
+        background: linear-gradient(180deg, ${Math.random()>0.5?'#ffcc00':'#ff9900'}, transparent);
+      `;
+      container.appendChild(el);
+    }, i * 100);
+  }
+}
+
+let currentMode = 'dark';
+function setMode(mode) {
+  document.body.className = 'mode-' + mode;
+  currentMode = mode;
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.mode-btn').forEach(b => {
+    if (b.textContent.toLowerCase().includes(mode)) b.classList.add('active');
+  });
+  if (modeParticles[mode]) modeParticles[mode]();
+  // Shake the countdown card
+  const card = document.querySelector('.countdown-card');
+  card.classList.remove('shake');
+  void card.offsetWidth;
+  card.classList.add('shake');
+}
+
+// ===================== INIT =====================
+setInterval(updateClock, 50);
+setInterval(updateFunMessage, 5000);
+updateClock();
+updateFunMessage();
+modeParticles.dark();
+</script>
+</body>
+</html>
