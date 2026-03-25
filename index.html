@@ -527,9 +527,305 @@
     );
     pointer-events: none;
   }
+
+  /* ===================== GLOBAL TENSION FEED (VERTICAL) ===================== */
+  .tension-feed {
+    width: min(900px, 95vw);
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .feed-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 22px 10px;
+    border-bottom: 1px solid var(--glass-border);
+  }
+
+  .live-dot {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--glow), 0 0 16px var(--glow);
+    animation: liveBlink 1.2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  @keyframes liveBlink {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.3; transform: scale(0.7); }
+  }
+
+  .feed-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 4px;
+    color: var(--accent);
+    text-shadow: 0 0 8px var(--glow);
+  }
+
+  .feed-badge {
+    margin-left: auto;
+    font-size: 0.58rem;
+    letter-spacing: 2px;
+    color: var(--accent2);
+    background: rgba(255,100,0,0.12);
+    border: 1px solid var(--accent2);
+    padding: 3px 10px;
+    border-radius: 50px;
+    opacity: 0.8;
+    text-transform: uppercase;
+  }
+
+  .feed-keywords {
+    padding: 6px 22px;
+    font-size: 0.55rem;
+    letter-spacing: 2px;
+    color: var(--accent2);
+    opacity: 0.55;
+    border-bottom: 1px solid var(--glass-border);
+    text-transform: uppercase;
+  }
+
+  /* Vertical Feed List container */
+  .feed-list {
+    display: flex;
+    flex-direction: column;
+    max-height: 350px;
+    overflow-y: auto;
+  }
+
+  /* Custom scrollbar for the vertical feed */
+  .feed-list::-webkit-scrollbar {
+    width: 6px;
+  }
+  .feed-list::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .feed-list::-webkit-scrollbar-thumb {
+    background: var(--glass-border);
+    border-radius: 10px;
+  }
+  .feed-list::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+  }
+
+  /* Individual Vertical Feed Item */
+  .feed-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 22px;
+    border-bottom: 1px solid var(--glass-border);
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+    text-decoration: none;
+  }
+  .feed-item:last-child {
+    border-bottom: none;
+  }
+  .feed-item:hover {
+    background: var(--glass-bg);
+  }
+
+  .feed-icon {
+    color: var(--accent);
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .feed-content {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+  }
+
+  .feed-title-text {
+    font-size: 0.78rem;
+    letter-spacing: 0.5px;
+    color: var(--text);
+    line-height: 1.4;
+    transition: color 0.2s;
+  }
+  .feed-item:hover .feed-title-text {
+    color: var(--accent2);
+  }
+
+  .feed-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .ticker-source {
+    font-size: 0.55rem;
+    letter-spacing: 2px;
+    color: var(--accent2);
+    opacity: 0.6;
+    text-transform: uppercase;
+  }
+
+  /* Doom score pill */
+  .doom-score {
+    font-size: 0.55rem;
+    padding: 2px 7px;
+    border-radius: 50px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+  .doom-score.high   { background: rgba(255,0,0,0.25);   color: #ff6666; border: 1px solid rgba(255,0,0,0.4); }
+  .doom-score.medium { background: rgba(255,120,0,0.2);  color: #ffaa44; border: 1px solid rgba(255,120,0,0.35); }
+  .doom-score.low    { background: rgba(255,220,0,0.15); color: #ffdd66; border: 1px solid rgba(255,220,0,0.3); }
+
+  /* Feed status bar */
+  .feed-status {
+    padding: 7px 22px;
+    border-top: 1px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .status-text {
+    font-size: 0.58rem;
+    letter-spacing: 1.5px;
+    color: var(--accent2);
+    opacity: 0.6;
+    text-transform: uppercase;
+  }
+
+  .feed-count {
+    font-size: 0.58rem;
+    color: var(--accent);
+    letter-spacing: 1px;
+  }
+
+  /* ---- GLITCH FALLBACK ---- */
+  .glitch-container {
+    padding: 30px 22px;
+    text-align: center;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+  }
+
+  .glitch-text {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(0.7rem, 2vw, 0.85rem);
+    letter-spacing: 1px;
+    color: var(--accent);
+    text-shadow: 0 0 20px var(--glow);
+    position: relative;
+    display: inline-block;
+    animation: glitchMain 2.5s infinite;
+    white-space: normal;
+    line-height: 1.4;
+  }
+  .glitch-text::before,
+  .glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+  }
+  .glitch-text::before {
+    color: #00ffff;
+    animation: glitchTop 2.5s infinite;
+    clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+    transform: translate(-3px, -3px);
+    opacity: 0.8;
+  }
+  .glitch-text::after {
+    color: #ff00ff;
+    animation: glitchBottom 2.5s infinite;
+    clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+    transform: translate(3px, 3px);
+    opacity: 0.8;
+  }
+  @keyframes glitchMain {
+    0%,90%,100% { transform: none; filter: none; }
+    92% { transform: skewX(-8deg) translateX(4px); filter: blur(1px); }
+    94% { transform: skewX(5deg) translateX(-3px); }
+    96% { transform: skewX(-3deg); filter: brightness(1.5); }
+  }
+  @keyframes glitchTop {
+    0%,85%,100% { transform: translate(-3px,-3px); opacity: 0; }
+    87%,93% { transform: translate(-6px,-2px); opacity: 0.9; }
+    90% { transform: translate(3px,-4px); opacity: 0.7; }
+  }
+  @keyframes glitchBottom {
+    0%,85%,100% { transform: translate(3px,3px); opacity: 0; }
+    88%,92% { transform: translate(5px,2px); opacity: 0.9; }
+    91% { transform: translate(-4px,5px); opacity: 0.6; }
+  }
+
+  .glitch-sub {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    color: var(--accent2);
+    opacity: 0.5;
+    text-transform: uppercase;
+    animation: staticFlicker 4s steps(1) infinite;
+    margin-top: 8px;
+  }
+  @keyframes staticFlicker {
+    0%,100% { opacity: 0.5; }
+    10% { opacity: 0.1; }
+    11% { opacity: 0.6; }
+    50% { opacity: 0.3; }
+    51% { opacity: 0.7; }
+    80% { opacity: 0.2; }
+    81% { opacity: 0.5; }
+  }
+
+  .noise-bar {
+    width: 100%;
+    height: 3px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--accent) 0px, var(--accent) 2px,
+      transparent 2px, transparent 6px,
+      var(--accent2) 6px, var(--accent2) 8px,
+      transparent 8px, transparent 14px
+    );
+    opacity: 0.4;
+    animation: noiseShift 0.3s steps(3) infinite;
+  }
+  @keyframes noiseShift {
+    from { background-position: 0; }
+    to { background-position: 20px; }
+  }
+
+  /* Loading state */
+  .feed-loading {
+    padding: 20px 22px;
+    text-align: center;
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    color: var(--accent2);
+    opacity: 0.6;
+    animation: loadingPulse 1s ease-in-out infinite alternate;
+    text-transform: uppercase;
+  }
+  @keyframes loadingPulse {
+    from { opacity: 0.3; }
+    to { opacity: 0.8; }
+  }
 </style>
 </head>
-<body class="mode-dark">
+<body>
 
 <div class="bg-layer"></div>
 <div id="particles"></div>
@@ -596,7 +892,7 @@
   <div class="glass mode-card">
     <div class="mode-label">🎨 Choose Your Apocalypse Aesthetic</div>
     <div class="mode-grid">
-      <button class="mode-btn active" onclick="setMode('dark')">🌑 Dark</button>
+      <button class="mode-btn" onclick="setMode('dark')">🌑 Dark</button>
       <button class="mode-btn" onclick="setMode('fire')">🔥 Fire</button>
       <button class="mode-btn" onclick="setMode('water')">🌊 Water</button>
       <button class="mode-btn" onclick="setMode('meteor')">☄️ Meteor</button>
@@ -621,6 +917,25 @@
       <li>The prophecy is 100% accurate give or take 100% margin of error</li>
     </ul>
   </div>
+
+  <!-- GLOBAL TENSION FEED -->
+  <section class="glass tension-feed" id="tensionFeed" aria-label="Global Tension Feed">
+    <div class="feed-header">
+      <div class="live-dot"></div>
+      <div class="feed-title">⚡ Global Tension Feed</div>
+      <div class="feed-badge" id="feedBadge">Scanning...</div>
+    </div>
+    <div class="feed-keywords">
+      Monitoring: nuclear · conflict · ballistic · ultimatum · sanctions · mobilization · tensions · warhead · airstrike · ceasefire · invasion · escalation
+    </div>
+    <div id="feedBody">
+      <div class="feed-loading">▶ INTERCEPTING GLOBAL TRANSMISSIONS...</div>
+    </div>
+    <div class="feed-status">
+      <span class="status-text" id="feedStatus">Initializing signal intercept...</span>
+      <span class="feed-count" id="feedCount"></span>
+    </div>
+  </section>
 
   <div class="footer-note">FOR ENTERTAINMENT PURPOSES ONLY · NOT RESPONSIBLE FOR EXISTENTIAL DREAD · CONSULT A THERAPIST NOT A COUNTDOWN TIMER</div>
 </div>
@@ -809,11 +1124,214 @@ function setMode(mode) {
     if (b.textContent.toLowerCase().includes(mode)) b.classList.add('active');
   });
   if (modeParticles[mode]) modeParticles[mode]();
-  // Shake the countdown card
+  // Shake the countdown card slightly
   const card = document.querySelector('.countdown-card');
-  card.classList.remove('shake');
-  void card.offsetWidth;
-  card.classList.add('shake');
+  if(card) {
+    card.classList.remove('shake');
+    void card.offsetWidth;
+    card.classList.add('shake');
+  }
+}
+
+// ===================== GLOBAL TENSION FEED =====================
+const DOOM_KEYWORDS = [
+  'nuclear','conflict','ballistic','ultimatum','sanctions','mobilization',
+  'tensions','warhead','airstrike','ceasefire','invasion','escalation',
+  'missile','military','troops','threat','attack','war','crisis','strike',
+  'bomb','weapon','arms','defense','aggression','hostilities','offensive'
+];
+
+const FAKE_X_POSTS = [
+  "X/@Y2K_Doomer: The millennium bug will launch the silos. See you in the wasteland. [Dec 31, 1999]",
+  "X/@MayanTruth: Calendar ends today. I maxed out my credit cards. 🪐💀 [Dec 21, 2012]",
+  "X/@MathProphet: The equations are flawless. Rapture is tomorrow at 6PM. [May 20, 2011]",
+  "X/@CometWatcher: Halley's Comet cyanogen gas will suffocate us all! [May 18, 1910]",
+  "X/@PlanetX_Real: Nibiru collision imminent. The elites are hiding in bunkers. [Sep 23, 2017]"
+];
+
+// Doom score: how apocalyptically spicy is this headline?
+const HIGH_DOOM = ['nuclear','ballistic','warhead','missile','bomb','weapon','arms'];
+const MED_DOOM  = ['airstrike','invasion','troops','military','attack','offensive','hostilities'];
+
+function scoreDoom(text) {
+  const t = text.toLowerCase();
+  if (HIGH_DOOM.some(k => t.includes(k))) return 'high';
+  if (MED_DOOM.some(k => t.includes(k)))  return 'medium';
+  return 'low';
+}
+function doomLabel(score) {
+  return score === 'high' ? '☢ CRITICAL' : score === 'medium' ? '⚠ ELEVATED' : '📡 WATCH';
+}
+
+function matchesKeywords(text) {
+  const t = text.toLowerCase();
+  return DOOM_KEYWORDS.some(k => t.includes(k));
+}
+
+// RSS feeds via rss2json proxy
+const RSS_FEEDS = [
+  'https://feeds.bbci.co.uk/news/world/rss.xml',
+  'https://rss.nytimes.com/services/xml/rss/nyt/World.xml',
+  'https://feeds.reuters.com/reuters/worldNews',
+  'https://www.theguardian.com/world/rss',
+  'https://feeds.npr.org/1004/rss.xml',
+  'https://timesofindia.indiatimes.com/rssfeeds/296589292.cms', 
+  'https://feeds.feedburner.com/ndtvnews-world-news'          
+];
+
+const RSS2JSON = 'https://api.rss2json.com/v1/api.json?rss_url=';
+
+async function fetchFeed(url) {
+  try {
+    const res = await fetch(RSS2JSON + encodeURIComponent(url), { signal: AbortSignal.timeout(6000) });
+    if (!res.ok) return [];
+    const data = await res.json();
+    if (data.status !== 'ok' || !Array.isArray(data.items)) return [];
+    return data.items.map(item => ({
+      title: item.title || '',
+      link: item.link || '#',
+      pubDate: item.pubDate || '',
+      source: (data.feed && data.feed.title) ? data.feed.title : new URL(url).hostname,
+    }));
+  } catch { return []; }
+}
+
+async function loadTensionFeed() {
+  document.getElementById('feedStatus').textContent = 'Intercepting global transmissions...';
+
+  // Fetch all feeds in parallel
+  const results = await Promise.allSettled(RSS_FEEDS.map(fetchFeed));
+  const allItems = results.flatMap(r => r.status === 'fulfilled' ? r.value : []);
+
+  // Filter by keywords, deduplicate by title prefix
+  const seen = new Set();
+  const filtered = allItems.filter(item => {
+    if (!matchesKeywords(item.title)) return false;
+    const key = item.title.slice(0, 40).toLowerCase();
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+
+  renderFeed(filtered);
+}
+
+function renderFeed(items) {
+  const body = document.getElementById('feedBody');
+  const badge = document.getElementById('feedBadge');
+  const status = document.getElementById('feedStatus');
+  const count = document.getElementById('feedCount');
+
+  if (items.length === 0) {
+    // GLITCH FALLBACK WITH HISTORICAL TWEETS
+    badge.textContent = 'SIGNAL LOST';
+    badge.style.borderColor = 'var(--accent)';
+    badge.style.color = 'var(--accent)';
+    status.textContent = 'No active threats intercepted';
+    count.textContent = '0 signals';
+    
+    // Pick two random fake posts to show
+    const shuffled = [...FAKE_X_POSTS].sort(() => 0.5 - Math.random());
+    const post1 = shuffled[0];
+    const post2 = shuffled[1];
+
+    body.innerHTML = `
+      <div class="glitch-container">
+        <div class="noise-bar"></div>
+        <div class="glitch-text" data-text="${post1}">${post1}</div>
+        <div class="glitch-text" data-text="${post2}">${post2}</div>
+        <div class="glitch-sub">█▓░ ARCHIVED FALSE ALARMS ░▓█ — RETRYING SIGNAL IN 60s</div>
+        <div class="noise-bar"></div>
+      </div>`;
+    
+    setTimeout(loadTensionFeed, 60000); // Retry in 60s
+    return;
+  }
+
+  // Build the vertical list
+  badge.textContent = 'LIVE';
+  badge.style.borderColor = '';
+  badge.style.color = '';
+  status.textContent = `Last scan: ${new Date().toUTCTimeString ? new Date().toLocaleTimeString() : new Date().toISOString().slice(11,19)} UTC`;
+  count.textContent = `${items.length} signal${items.length !== 1 ? 's' : ''} intercepted`;
+
+  const icons = ['☢','⚡','🚨','⚠','📡','🔴','💥','🛑'];
+  const itemsHTML = items.map((item, i) => {
+    const score = scoreDoom(item.title);
+    const icon = icons[i % icons.length];
+    return `
+      <a class="feed-item" href="${item.link}" target="_blank" rel="noopener">
+        <span class="feed-icon">${icon}</span>
+        <div class="feed-content">
+          <span class="feed-title-text">${item.title}</span>
+          <div class="feed-meta">
+            <span class="ticker-source">${item.source}</span>
+            <span class="doom-score ${score}">${doomLabel(score)}</span>
+          </div>
+        </div>
+      </a>`;
+  }).join('');
+
+  // Duplicate the list inner content for a seamless infinite scroll loop
+  body.innerHTML = `
+    <div class="feed-list" id="feedList" role="feed" aria-label="Global tension updates">
+      <div id="feedInner1">${itemsHTML}</div>
+      <div id="feedInner2">${itemsHTML}</div>
+    </div>`;
+
+  // Initialize auto-scrolling
+  startAutoScroll();
+
+  // Refresh every 5 minutes
+  setTimeout(loadTensionFeed, 5 * 60 * 1000);
+}
+
+// ===================== AUTO-SCROLL ENGINE =====================
+let autoScrollAnimationId = null;
+
+function startAutoScroll() {
+  const list = document.getElementById('feedList');
+  const inner1 = document.getElementById('feedInner1');
+  if (!list || !inner1) return;
+
+  if (autoScrollAnimationId) cancelAnimationFrame(autoScrollAnimationId);
+
+  let isHovered = false;
+  let exactScrollTop = list.scrollTop; // Using exact decimals to prevent jitter
+
+  const pauseScroll = () => isHovered = true;
+  const resumeScroll = () => {
+    isHovered = false;
+    exactScrollTop = list.scrollTop; // Sync up in case user manually scrolled
+  };
+
+  // Pause when user is interacting
+  list.addEventListener('mouseenter', pauseScroll);
+  list.addEventListener('mouseleave', resumeScroll);
+  list.addEventListener('touchstart', pauseScroll, { passive: true });
+  list.addEventListener('touchend', resumeScroll, { passive: true });
+  
+  // Track manual scrolling
+  list.addEventListener('scroll', () => {
+    if (isHovered) exactScrollTop = list.scrollTop;
+  }, { passive: true });
+
+  function scrollStep() {
+    if (!isHovered) {
+      exactScrollTop += 0.5; // Scroll speed
+      const sectionHeight = inner1.offsetHeight;
+      
+      // Infinite loop jump
+      if (exactScrollTop >= sectionHeight) {
+        exactScrollTop -= sectionHeight;
+      }
+      
+      list.scrollTop = exactScrollTop;
+    }
+    autoScrollAnimationId = requestAnimationFrame(scrollStep);
+  }
+  
+  autoScrollAnimationId = requestAnimationFrame(scrollStep);
 }
 
 // ===================== INIT =====================
@@ -821,7 +1339,15 @@ setInterval(updateClock, 50);
 setInterval(updateFunMessage, 5000);
 updateClock();
 updateFunMessage();
-modeParticles.dark();
+
+// Randomize Aesthetic Theme on Load
+const availableModes = ['dark', 'fire', 'water', 'meteor', 'volcano', 'light', 'space', 'zombie'];
+const randomStartMode = availableModes[Math.floor(Math.random() * availableModes.length)];
+setMode(randomStartMode);
+
+// Kick off tension feed loading
+loadTensionFeed();
+
 </script>
 </body>
 </html>
